@@ -1,31 +1,109 @@
-# AnxietO
-🎶 Project Summary: AI-Driven Emotion-Based Music Player for Mental Wellness
+# Mood_Music - AI-Driven Emotion-Based Music Player 🎵
 
-🌐In an effort to address the prevalent mental health challenges such as stress and anxiety, our team has developed an innovative project at the intersection of Artificial Intelligence and Music. Introducing an Emotion-Based Music Player powered by Artificial Intelligence and Machine Learning (AIML).
+## Overview
+Mood_Music is an innovative AI-powered music player that recommends music based on the user's emotional state, aiming to promote mental wellness through personalized music therapy.
 
-Objective: The primary goal of this project is to leverage the therapeutic benefits of music to aid individuals dealing with mental health issues. Through advanced emotion recognition algorithms, the AIML music player dynamically curates playlists on YouTube tailored to the user's emotional state, creating a personalized and healing musical experience.
+## Features
+- 🎭 Real-time emotion detection using facial expressions
+- 🎵 Dynamic playlist generation based on emotional state
+- 🌍 Multi-language support
+- 🎤 Artist-specific recommendations
+- 👤 Facial landmark detection using MediaPipe
+- 💻 Streamlit-based web interface
 
-Key Features:
+## Tech Stack
+- Python 3.7+
+- TensorFlow/Keras for emotion classification
+- MediaPipe for facial landmark detection
+- OpenCV for image processing
+- Streamlit for web interface
+- WebRTC for real-time video streaming
 
-Emotion Recognition:🙂
+## Project Structure
+```
+Mood_Music/
+├── data_collection.py      # Collect facial expression data
+├── data_training.py       # Train the emotion recognition model
+├── inference.py          # Real-time emotion detection
+├── model.h5             # Trained emotion recognition model
+├── labels.npy          # Emotion labels
+└── playlist.py        # YouTube playlist generation
+```
 
-Utilizing state-of-the-art emotion detection algorithms to analyze user sentiment in real-time.
-Dynamically adjusts the music playlist based on the detected emotional state to provide a comforting and uplifting listening experience.
-User Input Flexibility:💻
+## Installation
 
-Enhancing versatility, users can input their preferred singer and language to further personalize their music recommendations.
-A seamless integration with popular platforms like YouTube ensures a vast and diverse selection of music from around the world.
-How It Works:
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/Mood_Music.git
+cd Mood_Music
+```
 
-Emotion Analysis:👨🏻‍💻
+2. Install required dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-The AI analyzes facial expressions, to determine the user's emotional state ,We compare User Facial expression to pre-trained model (We are using ANN model to train data) to determine the Emotion of user.
-Personalization:
+## Usage
 
-Users can input their preferred singer and language, allowing the AIML music player to fine-tune recommendations based on individual tastes.
-The personalized playlists cater to the user's cultural preferences and linguistic comfort.
-Impact:🌎 With mental health at the forefront of our concerns, this project aims to make a meaningful impact by harnessing the power of technology and music to provide solace and support to individuals facing emotional challenges.
+### 1. Data Collection
+Run data collection script to gather facial expression data:
+```bash
+python data_collection.py
+```
+- Press 'ESC' to stop recording
+- Data will be saved as .npy files
 
-Future Developments:🎯 Currently we are building an App so that our project can reach to everyone and it will people to get rid of their anxiety , stress and other kind of mental problems...
+### 2. Model Training
+Train the emotion recognition model:
+```bash
+python data_training.py
+```
+- The trained model will be saved as 'model.h5'
+- Labels will be saved as 'labels.npy'
 
-Join us in promoting mental well-being through technology and music. Together, let's create a harmonious environment for healing and self-care.
+### 3. Running the Application
+Start the Streamlit application:
+```bash
+streamlit run inference.py
+```
+
+### Using the Interface
+1. Enter preferred language and artist name
+2. Allow webcam access
+3. The system will detect your emotion in real-time
+4. Click "Recommend me songs" to get personalized YouTube playlist
+
+## Model Architecture
+- Input Layer: Facial landmarks features
+- Hidden Layers: Dense layers (512, 256 units)
+- Output Layer: Softmax classification for emotions
+- Optimizer: RMSprop
+- Loss: Categorical Crossentropy
+
+## Future Developments
+- 📱 Mobile application development
+- 🎯 Enhanced emotion detection accuracy
+- 🎵 Integration with multiple music platforms
+- 💾 User preference storage
+- 📊 Emotion tracking analytics
+
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+[Add your chosen license here]
+
+## Contributors
+[List of contributors]
+
+## Acknowledgments
+- MediaPipe team for facial landmark detection
+- TensorFlow team for the deep learning framework
+- Streamlit team for the web interface framework
+
+## Support
+For support, email [your-email@domain.com] or open an issue in the repository.
