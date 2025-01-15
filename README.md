@@ -94,16 +94,3 @@ streamlit run inference.py
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
-[Add your chosen license here]
-
-## Contributors
-[List of contributors]
-
-## Acknowledgments
-- MediaPipe team for facial landmark detection
-- TensorFlow team for the deep learning framework
-- Streamlit team for the web interface framework
-
-## Support
-For support, email [your-email@domain.com] or open an issue in the repository.
