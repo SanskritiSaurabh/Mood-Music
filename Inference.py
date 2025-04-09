@@ -1,69 +1,59 @@
-import cv2 
-import numpy as np 
-import mediapipe as mp 
-from keras.models import load_model 
+import cv2
+import numpy as np
+import mediapipe as mp
+from tensorflow.keras.models import load_model
 
-
-model  = load_model("model.h5")
+model = load_model("model.h5")
 label = np.load("labels.npy")
 
+mp_holistic = mp.solutions.holistic
+mp_hands = mp.solutions.hands
 
-
-holistic = mp.solutions.holistic
-hands = mp.solutions.hands
-holis = holistic.Holistic()
-drawing = mp.solutions.drawing_utils
+drawing_module = mp.solutions.drawing_utils
 
 cap = cv2.VideoCapture(0)
 
-
+detector = mp_holistic.Holistic()
 
 while True:
-	lst = []
+    success, frame = cap.read()
 
-	_, frm = cap.read()
+    frame = cv2.flip(frame, 1)
 
-	frm = cv2.flip(frm, 1)
+    results = mp_holistic.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
-	res = holis.process(cv2.cvtColor(frm, cv2.COLOR_BGR2RGB))
+    if results.pose_landmarks:
+        for landmark in results.pose_landmarks.landmark:
+            pass
 
+        if results.left_hand_landmarks:
+            for landmark in results.left_hand_landmarks.landmark:
+                pass
+        else:
+            for _ in range(21):
+                pass
 
-	if res.face_landmarks:
-		for i in res.face_landmarks.landmark:
-			lst.append(i.x - res.face_landmarks.landmark[1].x)
-			lst.append(i.y - res.face_landmarks.landmark[1].y)
+        if results.right_hand_landmarks:
+            for landmark in results.right_hand_landmarks.landmark:
+                pass
+        else:
+            for _ in range(21):
+                pass
 
-		if res.left_hand_landmarks:
-			for i in res.left_hand_landmarks.landmark:
-				lst.append(i.x - res.left_hand_landmarks.landmark[8].x)
-				lst.append(i.y - res.left_hand_landmarks.landmark[8].y)
-		else:
-			for i in range(42):
-				lst.append(0.0)
+        landmarks = np.array([...])
+        landmarks = landmarks.reshape((1, -1))
+        prediction = np.argmax(model.predict(landmarks))
+        pred = label[prediction]
 
-		if res.right_hand_landmarks:
-			for i in res.right_hand_landmarks.landmark:
-				lst.append(i.x - res.right_hand_landmarks.landmark[8].x)
-				lst.append(i.y - res.right_hand_landmarks.landmark[8].y)
-		else:
-			for i in range(42):
-				lst.append(0.0)
+        cv2.putText(frame, pred, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
 
-		lst = np.array(lst).reshape(1,-1)
+    drawing_module.draw_landmarks(frame, results.pose_landmarks, mp_holistic.FACEMESH_CONTOURS)
+    drawing_module.draw_landmarks(frame, results.left_hand_landmarks, mp_hands.HAND_CONNECTIONS)
+    drawing_module.draw_landmarks(frame, results.right_hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
-		pred = label[np.argmax(model.predict(lst))]
+    cv2.imshow('Window', frame)
 
-		print(pred)
-		cv2.putText(frm, pred, (50,50),cv2.FONT_ITALIC, 1, (255,0,0),2)
-
-		
-	drawing.draw_landmarks(frm, res.face_landmarks, holistic.FACEMESH_CONTOURS)
-	drawing.draw_landmarks(frm, res.left_hand_landmarks, hands.HAND_CONNECTIONS)
-	drawing.draw_landmarks(frm, res.right_hand_landmarks, hands.HAND_CONNECTIONS)
-
-	cv2.imshow("window", frm)
-
-	if cv2.waitKey(1) == 27:
-		cv2.destroyAllWindows()
-		cap.release()
-		break
+    if cv2.waitKey(1) == 27:
+        cv2.destroyAllWindows()
+        cap.release()
+        break
